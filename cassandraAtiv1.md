@@ -166,7 +166,14 @@ SELECT * FROM menssagens_ASC WHERE origem = 'Web' ALLOW FILTERING;
 ```
 7. Escreva uma consulta que retorne apenas os usuários do aplicativo que já receberam alguma mensagem que foi envida pelo APP (não pela Web).
 ```bash
-
+SELECT * FROM menssagens_ASC WHERE origem = 'APP' ALLOW FILTERING;
+ login | data                            | conteudo               | email          | localizacao | login_dest | nome        | origem | telefone       | tipo
+-------+---------------------------------+------------------------+----------------+-------------+------------+-------------+--------+----------------+-------
+ paulo | 2019-11-19 00:00:00.000000+0000 |               Bom dia! | maco@gmail.com |     Brusque |      mario |  Maria José |    APP | (47)93389-2227 | áudio
+ julia | 2019-12-11 00:00:00.000000+0000 |               Bom dia! | maco@gmail.com |    Blumenau |      julia |  Maria José |    APP | (47)93339-3387 | vídeo
+ maria | 2019-07-21 00:00:00.000000+0000 | Lavação carro 12:00hrs | mjua@gmail.com |     Brusque |       rita | Mário Costa |    APP | (47)99999-9999 | vídeo
+  joao | 2019-11-19 00:00:00.000000+0000 |             Boa noite! | joao@gmail.com |      Gaspar |      maria |  Maria José |    APP | (47)93389-2227 | vídeo
+(4 rows)
 ```
 8. Escreva uma consulta que retorne as 10 últimas mensagens recebidas por um usuário, ordenado em ordem decrescente.
 ```bash
@@ -201,15 +208,20 @@ CREATE MATERIALIZED VIEW usuarioReceptor AS
     PRIMARY KEY (login_dest, login, data)
     WITH CLUSTERING ORDER BY (data DESC);
 
-SELECT * FROM usuarioReceptor WHERE login = 'joao' AND login_dest = 'maria' ALLOW FILTERING;
+SELECT * FROM usuarioReceptor WHERE login in ('maria', 'joao') AND login_dest  in ('joao','maria') ALLOW FILTERING;
 
- login_dest | login | data                            | conteudo                  | email          | localizacao | nome       | origem | telefone       | tipo
-------------+-------+---------------------------------+---------------------------+----------------+-------------+------------+--------+----------------+-------
-      maria |  joao | 2019-11-19 00:00:00.000000+0000 |                Boa noite! | joao@gmail.com |      Gaspar | Maria José |    APP | (47)93389-2227 | vídeo
-      maria |  joao | 2019-02-20 00:00:00.000000+0000 |    Lavação carro 12:00hrs |   pr@gmail.com |     Brusque | Júlia José |    APP | (47)97789-8888 | vídeo
-      maria |  joao | 2019-01-11 00:00:00.000000+0000 | Buscar filho no aeroporto |   pr@gmail.com |     Brusque | Júlia José |    Web | (47)99999-9999 | áudio
+ login_dest | login | data                            | conteudo                  | email            | localizacao | nome          | origem | telefone       | tipo
+------------+-------+---------------------------------+---------------------------+------------------+-------------+---------------+--------+----------------+-------
+       joao |  joao | 2019-12-11 00:00:00.000000+0000 | Buscar filho no aeroporto |  maria@gmail.com |     Brusque |  Rita Pereira |    APP | (47)93389-2227 | vídeo
+       joao | maria | 2019-05-07 00:00:00.000000+0000 |                Boa noite! |   maco@gmail.com |      Gaspar |    Maria José |    Web | (47)93339-3387 | vídeo
+       joao | maria | 2019-01-11 00:00:00.000000+0000 |       Reunião às 14:00hrs |  maria@gmail.com |    Blumenau |   Mário Costa |    Web | (47)93339-3387 | vídeo
+      maria |  joao | 2019-11-19 00:00:00.000000+0000 |                Boa noite! |   joao@gmail.com |      Gaspar |    Maria José |    APP | (47)93389-2227 | vídeo
+      maria |  joao | 2019-02-20 00:00:00.000000+0000 |    Lavação carro 12:00hrs |     pr@gmail.com |     Brusque |    Júlia José |    APP | (47)97789-8888 | vídeo
+      maria |  joao | 2019-01-11 00:00:00.000000+0000 | Buscar filho no aeroporto |     pr@gmail.com |     Brusque |    Júlia José |    Web | (47)99999-9999 | áudio
+      maria | maria | 2019-07-02 00:00:00.000000+0000 |    Lavação carro 12:00hrs | ririta@gmail.com |    Blumenau | Paulo Roberto |    Web | (47)97789-8888 | vídeo
+      maria | maria | 2019-04-02 00:00:00.000000+0000 |       Esquecesse o casaco |   joao@gmail.com |      Gaspar | Joao da Silva |    Web | (47)93339-3387 | vídeo
 
-(3 rows)
+(8 rows)
 ```
 10. Relacione o nome de todos os usuários ordenados pela data de última mensagem transmitida pelo sistema.
 ```bash
