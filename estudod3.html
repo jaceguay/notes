@@ -17,13 +17,6 @@
         <b>Olá</b>
     </button>
     <script>
-        testeJ = d3.json("dados.geojson", (data) => {
-            return data
-        });
-        testeJ.then((value) => {
-            console.log(value.features);
-        });
-
         const altura = 300;
         const largura = 200;
         const svg = d3.select('svg');
