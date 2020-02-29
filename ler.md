@@ -105,6 +105,42 @@ fs.readdirSync('livros/01').forEach(arquivo => {
 });
 ```
 
+## Exemplo livros
+```js
+//localização ma/macho.json
+{
+    "livros": [
+        {
+            "arquivo": "1365.txt",
+            "titulo": "COMPLETE WORKS OF LONGFELLOW",
+            "ocorrencias": 1,
+            "linhas": [
+                15937
+            ]
+        },
+        {
+            "arquivo": "2000-8.txt",
+            "titulo": "DON QUIJOTE",
+            "ocorrencias": 11,
+            "linhas": [
+                18995,
+                18996,
+                19104,
+                20865,
+                20869,
+                20876,
+                20982,
+                24951,
+                29243,
+                29996,
+                30770
+            ]
+        }
+    ],
+    "cont": 12 //contagem geral do número de ocorrências do livro
+}
+```
+
 ## Página de pesquisa
 ```html
 <!DOCTYPE html>
