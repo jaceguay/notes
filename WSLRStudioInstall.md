@@ -11,8 +11,8 @@ R --version
 ### instalar RServer
 ```bash
 sudo apt-get install gdebi-core
-wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.5033-amd64.deb
-sudo gdebi rstudio-server-1.2.5033-amd64.deb
+wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.5042-amd64.deb
+sudo gdebi rstudio-server-1.2.5042-amd64.deb
 ```
 
 ### iniciar server
