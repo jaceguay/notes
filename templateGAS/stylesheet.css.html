@@ -1,0 +1,235 @@
+<style>
+  :root {
+    --base: #00bcd4;
+    --escuro: #333;
+    --claro: #e9e9e9;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    width: 100%;
+  }
+
+  .conteiner1 {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+  }
+
+  .barrasuperior {
+    display: flex;
+    height: 35px;
+  }
+
+  .mapa {
+    background-color: gray;
+    flex: 14;
+  }
+
+  .tabelas {
+    display: flex;
+    background: var(--claro);
+    height: 300px;
+    overflow-y: hidden;
+    border: none;
+  }
+
+  .logo {
+    display: flex;
+    background: var(--base);
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  #brastitulo {
+    color: var(--claro);
+    text-shadow: 1px 1px 2px black;
+  }
+
+  #pesquisa {
+    display: flex;
+    background: var(--claro);
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  #tabs {
+    background: transparent;
+    border: none;
+    overflow: hidden;
+  }
+
+  #tabs-1 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #tabs-2 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #tabs .ui-widget-header {
+    background: transparent;
+    border: none;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+  }
+
+  #tabs .ui-tabs-nav .ui-state-default {
+    background: transparent;
+    border: none;
+  }
+
+  #tabs .ui-tabs-nav .ui-state-active {
+    background: var(--base);
+    border: none;
+  }
+
+  #tabs .ui-tabs-nav .ui-state-default a {
+    color: var(--escuro);
+  }
+
+  #tabs .ui-tabs-nav .ui-state-active a {
+    color: var(--claro);
+    text-shadow: 1px 1px 2px black;
+  }
+
+  @media (max-width: 700px) {
+    .barrasuperior {
+      flex-direction: column;
+      height: 60px;
+    }
+  }
+
+  /* lista autocompletar */
+  .ui-autocomplete {
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  ul.ui-autocomplete {
+    z-index: 402;
+  }
+
+  .ui-accordion {
+    padding-top: 20px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  .ui-state-active,
+  .ui-widget-content .ui-state-active,
+  .ui-widget-header .ui-state-active,
+  .ui-button:active,
+  .ui-state-active.ui-button:hover,
+  .ui-state-active,
+  .ui-state-hover,
+  .ui-state-visited,
+  .ui-tabs-nav li a,
+  .ui-widget-header,
+  .ui-state-focus {
+    outline: none;
+  }
+
+  .tabulator {
+    font-size: 12px;
+    background: var(--claro);
+  }
+
+  .tabulator .tabulator-header .tabulator-col {
+    background: var(--base);
+    color: var(--claro);
+    text-shadow: 1px 1px 2px black;
+  }
+
+  .tabulator .tabulator-header {
+    border-bottom: 0px;
+  }
+
+  .tabulator .tabulator-header,
+  .tabulator .tabulator-header .tabulator-col {
+    background-color: var(--base);
+  }
+
+  .tabulator-edit-select-list {
+    max-height: 120px;
+  }
+
+  .leaflet-container {
+    background: #e6e6e6;
+  }
+
+  .tg {
+    color: var(--escuro);
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  .tg td {
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: var(--escuro);
+  }
+
+  .tg th {
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: var(--escuro);
+  }
+
+  .tg .tg-p46z {
+    border-color: var(--base);
+    background-color: var(--base);
+    text-align: left;
+    vertical-align: center
+  }
+
+  .tg .tg-0lax {
+    text-align: left;
+    vertical-align: top
+  }
+
+  .botao {
+    color: var(--escuro);
+    border: none;
+    background-color: var(--base);
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .conjuntobotoes {
+    display: inline-flex;
+    background-color: var(--base);
+    padding: 4px 2px;
+    justify-content: left;
+    font-size: 16px;
+  }
+
+  /* On mouse-over */
+  .botao:hover {
+    color: var(--claro);
+  }
+
+  .botao.selecionado {
+    background: var(--claro);
+  }
+</style>

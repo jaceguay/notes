@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Geo Itajaí</title>
+    <link rel="icon" type="image/png" href="https://geoitajai.github.io/geo/images/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://geoitajai.github.io/geo/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://geoitajai.github.io/geo/images/favicon-32x32.png" sizes="32x32">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+
+    <!-- leaflet fallback tilelayers -->
+    <script type="text/javascript" src="https://geoitajai.github.io/geo/lib/fallback.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- sheetrock -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.4/dist/sheetrock.min.js"></script>
+
+    <!-- Tabulator -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.4.3/css/tabulator_simple.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.6.0/dist/js/tabulator.min.js"></script>
+
+    <!-- moment -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <!-- stylesheet -->
+    <?!= include('stylesheet.css'); ?>
+
+</head>
+
+<body>
+    <div class='conteiner1'>
+        <div class="barrasuperior">
+            <div class='logo' id="brastitulo">
+                <img src="https://geoitajai.github.io/geo/images/favicon-32x32.png"
+                    style="height:auto; width:auto; padding:3px;">
+                <span>Município de Itajaí </br> <b>PLANTA CADASTRAL</b></span>
+            </div>
+            <div id='pesquisa'>
+                <form>
+                    <input id="pesquisaRapida" placeholder="Inscr.imobiliária, código ou logradouro"
+                        style="width: 300px;">
+                </form>
+            </div>
+        </div>
+        <div class="mapa" id="mapa"></div>
+        <div class="tabelas">
+            <div id="tabs">
+                <ul>
+                    <li id="novo"><a href="#tabs-1">Novo</a></li>
+                    <li id="historico"><a href="#tabs-2">Histórico</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <div class="conjuntobotoes">
+                        <button id="add-row" class="botao">Adicionar registro -</button>
+                        <button id="del-rows" class="botao">Cancelar selecionados -</button>
+                        <button id="save-rows" class="botao">Salva registros</button>
+                    </div>
+                    <div id="tabelanovo">tabela</div>
+                </div>
+                <div id="tabs-2">
+                    <div class="conjuntobotoes">
+                        <button id="del-rows-historico" class="botao">Apaga registro do histórico -</button>
+                        <button id="edit-rows-historico" class="botao">Edição (aba Novo)</button>
+                    </div>
+                    <div id="tabelahistorico"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mapa base -->
+    <?!= include('basemap.js'); ?>
+
+    <!-- Temático -->
+    <?!= include('app.js'); ?>
+
+</body>
+
+</html>
