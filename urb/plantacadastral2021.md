@@ -4,12 +4,6 @@ Endereço:
 
 Estou considerando esta configuração da planta cadastral para o uso interno, em um usuário que possui permissão a visualizar todos os itens disponíveis.
 
-- ferramentas
-- camadas
-- layout/interface
-- estilos
-- performance
-
 ## Ferramentas
 
 ### Botões
