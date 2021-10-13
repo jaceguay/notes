@@ -4,6 +4,12 @@ Endereço:
 
 Estou considerando esta configuração da planta cadastral para o uso interno, em um usuário que possui permissão a visualizar todos os itens disponíveis.
 
+## Visualização e navegação
+
+- A respeito do estilo do basemap, incluir os limites intermunicipais e dando destaque a Itajaí, também inserindo o perímetro urbano (linha) por padrão.
+- O número como existe hoje, poderia ser adicionado como rótulo para os lotes, somente a partir de uma escala específica. ![numeração lotes](imgs/numeracao_lotes.png)
+- A codificação do nome das vias possuí um problema, no geoserver/postgresql é utilizado UTF-8.
+
 ## Ferramentas
 
 ### Botões
@@ -33,8 +39,8 @@ Estou considerando esta configuração da planta cadastral para o uso interno, e
 ## Camadas
 
 As propriedades mostradas ainda possuem colunas duplicadas, as tabelas abaixo tem a intenção de compreender quais colunas,ordem e qual a fonte de dados para cada. Também existe a previsão do tipo de dados que mais tarde servirão principalmente os que possuem classes a criação dos filtros. Percebi também que existem alguns problemas na codificação dos dados, as camadas a partir do geoserver ou postgresql estão em UTF-8.
-A respeito da visualização quanto ao layout da janela flutuante, a lista de propriedades está bem extensa, poderíamos propor uma versão resumida não necessariamente mostrando todos os itens do espelho.
-Uma das propriedades mais importantes é a razão social dos proprietários, poderia permanecer em uma aba separada da caixa, contudo para facilitar o acesso colocar o link para abrir logo no topo. ![caixa flutuante atributos](imgs/janela_propriedades.png).
+A respeito da visualização quanto ao layout da janela flutuante, a lista de propriedades está bem extensa, poderíamos propor uma versão resumida não necessariamente mostrando todos os itens do espelho, neste caso a opção **Visualizar na Tabela de Atributos**, disponível no menu poderia ter mais detaque![menu tabela atrib](imgs/viz_tabela_attrib.png)
+Uma das propriedades mais importantes é a razão social dos proprietários, poderia permanecer em uma aba separada da caixa, contudo para facilitar o acesso colocar o link para abrir logo no topo. ![caixa flutuante atributos](imgs/janela_propriedades.png)
 Camadas: lotes, áreas de conflito, edificações e loteamentos.
 
 ### características dos lotes
