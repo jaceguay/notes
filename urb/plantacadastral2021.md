@@ -9,6 +9,7 @@ Estou considerando esta configuração da planta cadastral para o uso interno, e
 - A respeito do estilo do basemap, incluir os limites intermunicipais e dando destaque a Itajaí, também inserindo o perímetro urbano (linha) por padrão.
 - O número como existe hoje, poderia ser adicionado como rótulo para os lotes, somente a partir de uma escala específica. ![numeração lotes](imgs/numeracao_lotes.png)
 - A codificação do nome das vias possuí um problema, no geoserver/postgresql é utilizado UTF-8.
+- O nível de aproximação poderia ser limitado a um nível menor como 21 no máximo, uma sugestão.
 
 ## Ferramentas
 
