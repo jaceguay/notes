@@ -19,9 +19,9 @@ Estou considerando esta configuração da planta cadastral para o uso interno, e
 
 - A ferramenta coordenada, no canto inferior esquerdo, poderia também exibir as coordenadas em sirgas, é o formato solicitado nos documentos encaminhados à prefeitura.
 
-- Na ferramenta filtro, as interações com os filtros não retornam nada se a camada específica não está ativa, possibilidade da ferramenta filtro e camadas estejam combinadas (melhor pois cada janela aberta sobre o mapa dificulta mais a visualização do mesmo, as janelas camada e filtro ao mesmo tempo sobrepõe quase todo o mapa), se não ao menos quando um filtro for selecionados que a camada a qual ele se relaciona seja ligada automaticamente.
+- Na ferramenta filtro, as interações com os filtros não retornam nada se a camada específica não está ativa, proposta de combinar as janelas de filtro e camadas, reduzir o número de janelas flutuantes.
 
-- A respeito da organização das janelas, a possibilidade de dedicar uma barra lateral para que elas sejam organizadas, como na ferramenta 'tabela de atributos' que se organiza na parte inferior da tela. Com duas janelas a visualização do mapa fica comprometida. 2 janelas: ![2 janelas](imgs/janelas2.png) e 3 janelas: ![3 janelas](imgs/janelas3.png).
+- A respeito da organização das janelas, a possibilidade de dedicar uma barra lateral para que elas sejam organizadas, como na ferramenta 'tabela de atributos' que se organiza na parte inferior da tela. Com duas janelas a visualização do mapa já fica comprometida, considerando o popup ao clicar nas feições e uma eventual terceira janela flutuante agrava o problema. 2 janelas: ![2 janelas](imgs/janelas2.png) e 3 janelas: ![3 janelas](imgs/janelas3.png).
 
 - A ferramenta tabela de atributos poderia assumir o papel da ferramenta filtros combinada com a ferramenta camadas, reduzindo o número de janelas de ferramentas que precisam permanecer flutuantes durante o uso, existe a possibilidade de adicionar um filtro em algumas colunas? Por exemplo: ![filtro coluna](imgs/filtro_coluna_b.png)
 
