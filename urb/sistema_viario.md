@@ -6,16 +6,39 @@ A["Tabela denominação"]--->|"Código"|B["Tabela propriedades seção"];
 B---|"Código + Seção"|C["Classe de feições (linhas)"];
 ```
 
+```mermaid
+erDiagram
+    viageom ||--o{ viasecao : codsecao
+    viageom {
+        string cod
+        string secao
+    }
+    viasecao {
+        string cod
+        string secao
+    }
+    viageom ||--|{ viadenom : cod
+    viadenom {
+        int orderNumber
+        string deliveryAddress
+    }
+    LINE-ITEM {
+        string productCode
+        int quantity
+        float pricePerUnit
+    }
+```
+
 ## Classe de feições
 
 Feições espaciais, linhas.
 
 Ligação com Tabela propriedades seção: Código + Seção
 
-Campo   | Descrição
---------|------------------------------------
-*Código | Identificador
-*Seção  | Composição para identificador único
+Nome  | Campo   | Descrição
+------|---------|------------------------------------
+cod   | *Código | Identificador
+secao | *Seção  | Composição para identificador único
 
 ## Tabela propriedades seção
 
@@ -23,20 +46,20 @@ Detalhe em cada seção.
 
 Ligação com Tabela denominação: Código
 
-Campo                  | Descrição
------------------------|----------------------------------------------------------------------
-*Código                | Identificador
-*Seção                 | Composição para identificador único
-Elevação ponto inicial | Representação da conectividade tridimencional
-Elevação ponto final   | Representação da conectividade tridimencional
-Sentido tráfego        | Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)
-Comprimento            | Propriedade geométrica
-Hierarquia             | Classe (Expressa, Arterial, Coletora ou local)
-Velocidade             | Limite de velocidade na via
-Código loteamento      | Código do loteamento de origem
-Nome loteamento        | Nome de identificação no loteamento de origem
-Largura                | Largura muro a muro da seção
-Pavimentação           | Tipo de pavimentação na faixa de rolamento
+Nome     | Campo                  | Descrição
+---------|------------------------|----------------------------------------------------------------------
+cod      | *Código                | Identificador
+secao    | *Seção                 | Composição para identificador único
+elevapi  | Elevação ponto inicial | Representação da conectividade tridimencional
+elevapf  | Elevação ponto final   | Representação da conectividade tridimencional
+sentido  | Sentido tráfego        | Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)
+comprim  | Comprimento            | Propriedade geométrica
+hierarq  | Hierarquia             | Classe (Expressa, Arterial, Coletora ou local)
+velocid  | Velocidade             | Limite de velocidade na via
+loteacod | Código loteamento      | Código do loteamento de origem
+loteanom | Nome loteamento        | Nome de identificação no loteamento de origem
+largura  | Largura                | Largura muro a muro da seção
+paviment | Pavimentação           | Tipo de pavimentação na faixa de rolamento
 
 ## Tabela denominação
 
