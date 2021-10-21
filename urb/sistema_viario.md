@@ -13,8 +13,9 @@ erDiagram
        numeric elevapi
        numeric elevapf
        category sentido
-       int numinici
        numeric comprim
+       int numinici
+       int numfinal
        category hierarq
        numeric velocid
        int loteacod
