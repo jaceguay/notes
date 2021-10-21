@@ -80,4 +80,5 @@ codtmic  | Código TMI        | Relação com tabela tributária
 # regras
 
 Número inicial(numinici): Relacionar todas as seções menores que a atual, somar seus comprimentos.
-Número inicial(numinici): Relacionar todas as seções menores que a atual, somar seus comprimentos.
+
+Número final(numinici): Relacionar todas as seções incluindo a atual, somar seus comprimentos.
