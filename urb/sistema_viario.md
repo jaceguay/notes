@@ -52,8 +52,9 @@ secao    | *Seção                 | Composição para identificador único
 elevapi  | Elevação ponto inicial | Representação da conectividade tridimensional
 elevapf  | Elevação ponto final   | Representação da conectividade tridimensional
 sentido  | Sentido tráfego        | Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)
-numinici | Número inicial         | Extensão ao início da seção
 comprim  | Comprimento            | Propriedade geométrica
+numinici | Número inicial         | Valor acumulado do comprimento da via até o poto inicial da seção atual
+numfinal | Número final           | Número infical + comprimento
 hierarq  | Hierarquia             | Classe (Expressa, Arterial, Coletora ou local)
 velocid  | Velocidade             | Limite de velocidade na via
 loteacod | Código loteamento      | Código do loteamento de origem
@@ -74,3 +75,8 @@ prefabre | Prefixo abreviado | Dep., Ver., Dr. ...
 lograbre | Nome abreviado    | R.João T.Pinto, R.Bruno V.da Luz ...
 leidata  | Lei               | Lei/data que dá denominação a via
 codtmic  | Código TMI        | Relação com tabela tributária
+
+# regras
+
+Número inicial(numinici): Relacionar todas as seções menores que a atual, somar seus comprimentos.
+Número inicial(numinici): Relacionar todas as seções menores que a atual, somar seus comprimentos.
