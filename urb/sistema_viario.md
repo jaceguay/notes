@@ -4,29 +4,29 @@
 erDiagram
    viageom }|--|| viasecao : codsecao
    viageom {
-       string cod
-       string secao
-   }
-   viasecao {
-       string cod
-       string secao
-       numeric elevapi
-       numeric elevapf
-       category sentido
-       numeric comprim
-       int numinici
-       int numfinal
-       category hierarq
-       numeric velocid
+       int cod
+       int secao
        int loteacod
        string loteanom
        numeric largura
        category paviment
+       int numinici
+       int numfinal
+   }
+   viasecao {
+       int cod
+       int secao
+       numeric elevapi
+       numeric elevapf
+       category sentido
+       numeric comprim
+       category hierarq
+       numeric velocid
    }
    viageom }|--|| viadenom : cod
    viadenom {
-       string cod
-       string logradou
+       int cod
+       int logradou
        category tipo
        category tipoabre
        category prefixo
@@ -39,29 +39,29 @@ erDiagram
 
 ## viageom: classe de feições
 
-Nome  | Campo   | Descrição
-------|---------|------------------------------------
-cod   | *Código | Identificador
-secao | *Seção  | Composição para identificador único
+Nome     | Campo             | Descrição
+---------|-------------------|----------------------------------------------------------------------------
+cod      | *Código           | Identificador
+secao    | *Seção            | Composição para identificador único
+loteacod | Código loteamento | Código do loteamento de origem
+loteanom | Nome loteamento   | Nome de identificação no loteamento de origem
+largura  | Largura           | Largura muro a muro da seção
+paviment | Pavimentação      | Tipo de pavimentação na faixa de rolamento
+numinici | Número inicial    | Valor acumulado do comprimento da via até o poto inicial da seção atual (1)
+numfinal | Número final      | Número infical + comprimento (2)
 
 ## viasecao: tabela propriedades seção
 
-Nome     | Campo                  | Descrição
----------|------------------------|----------------------------------------------------------------------
-cod      | *Código                | Identificador
-secao    | *Seção                 | Composição para identificador único
-elevapi  | Elevação ponto inicial | Representação da conectividade tridimensional
-elevapf  | Elevação ponto final   | Representação da conectividade tridimensional
-sentido  | Sentido tráfego        | Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)
-comprim  | Comprimento            | Propriedade geométrica
-numinici | Número inicial         | Valor acumulado do comprimento da via até o poto inicial da seção atual (1)
-numfinal | Número final           | Número infical + comprimento (2)
-hierarq  | Hierarquia             | Classe (Expressa, Arterial, Coletora ou local)
-velocid  | Velocidade             | Limite de velocidade na via
-loteacod | Código loteamento      | Código do loteamento de origem
-loteanom | Nome loteamento        | Nome de identificação no loteamento de origem
-largura  | Largura                | Largura muro a muro da seção
-paviment | Pavimentação           | Tipo de pavimentação na faixa de rolamento
+Nome    | Campo                  | Descrição
+--------|------------------------|----------------------------------------------------------------------
+cod     | *Código                | Identificador
+secao   | *Seção                 | Composição para identificador único
+elevapi | Elevação ponto inicial | Representação da conectividade tridimensional
+elevapf | Elevação ponto final   | Representação da conectividade tridimensional
+sentido | Sentido tráfego        | Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)
+comprim | Comprimento            | Propriedade geométrica
+hierarq | Hierarquia             | Classe (Expressa, Arterial, Coletora ou local)
+velocid | Velocidade             | Limite de velocidade na via
 
 ## viadenom: tabela denominação
 
@@ -81,4 +81,4 @@ codtmic  | Código TMI        | Relação com tabela tributária
 
 1. Número inicial(numinici): Relacionar todas as seções menores que a atual, somar seus comprimentos.
 
-2. Número final(numinici): Relacionar todas as seções incluindo a atual, somar seus comprimentos.
+2. Número final(numfinal): Relacionar todas as seções incluindo a atual, somar seus comprimentos.

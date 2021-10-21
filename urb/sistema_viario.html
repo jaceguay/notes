@@ -44,29 +44,29 @@
 <pre style="all:unset;"><div class="mermaid">erDiagram
    viageom }|--|| viasecao : codsecao
    viageom {
-       string cod
-       string secao
-   }
-   viasecao {
-       string cod
-       string secao
-       numeric elevapi
-       numeric elevapf
-       category sentido
-       numeric comprim
-       int numinici
-       int numfinal
-       category hierarq
-       numeric velocid
+       int cod
+       int secao
        int loteacod
        string loteanom
        numeric largura
        category paviment
+       int numinici
+       int numfinal
+   }
+   viasecao {
+       int cod
+       int secao
+       numeric elevapi
+       numeric elevapf
+       category sentido
+       numeric comprim
+       category hierarq
+       numeric velocid
    }
    viageom }|--|| viadenom : cod
    viadenom {
-       string cod
-       string logradou
+       int cod
+       int logradou
        category tipo
        category tipoabre
        category prefixo
@@ -95,6 +95,36 @@
 <td>secao</td>
 <td>*Seção</td>
 <td>Composição para identificador único</td>
+</tr>
+<tr>
+<td>loteacod</td>
+<td>Código loteamento</td>
+<td>Código do loteamento de origem</td>
+</tr>
+<tr>
+<td>loteanom</td>
+<td>Nome loteamento</td>
+<td>Nome de identificação no loteamento de origem</td>
+</tr>
+<tr>
+<td>largura</td>
+<td>Largura</td>
+<td>Largura muro a muro da seção</td>
+</tr>
+<tr>
+<td>paviment</td>
+<td>Pavimentação</td>
+<td>Tipo de pavimentação na faixa de rolamento</td>
+</tr>
+<tr>
+<td>numinici</td>
+<td>Número inicial</td>
+<td>Valor acumulado do comprimento da via até o poto inicial da seção atual (1)</td>
+</tr>
+<tr>
+<td>numfinal</td>
+<td>Número final</td>
+<td>Número infical + comprimento (2)</td>
 </tr>
 </tbody>
 </table>
@@ -139,16 +169,6 @@
 <td>Propriedade geométrica</td>
 </tr>
 <tr>
-<td>numinici</td>
-<td>Número inicial</td>
-<td>Valor acumulado do comprimento da via até o poto inicial da seção atual (1)</td>
-</tr>
-<tr>
-<td>numfinal</td>
-<td>Número final</td>
-<td>Número infical + comprimento (2)</td>
-</tr>
-<tr>
 <td>hierarq</td>
 <td>Hierarquia</td>
 <td>Classe (Expressa, Arterial, Coletora ou local)</td>
@@ -157,26 +177,6 @@
 <td>velocid</td>
 <td>Velocidade</td>
 <td>Limite de velocidade na via</td>
-</tr>
-<tr>
-<td>loteacod</td>
-<td>Código loteamento</td>
-<td>Código do loteamento de origem</td>
-</tr>
-<tr>
-<td>loteanom</td>
-<td>Nome loteamento</td>
-<td>Nome de identificação no loteamento de origem</td>
-</tr>
-<tr>
-<td>largura</td>
-<td>Largura</td>
-<td>Largura muro a muro da seção</td>
-</tr>
-<tr>
-<td>paviment</td>
-<td>Pavimentação</td>
-<td>Tipo de pavimentação na faixa de rolamento</td>
 </tr>
 </tbody>
 </table>
@@ -243,7 +243,7 @@
 <p>Número inicial(numinici): Relacionar todas as seções menores que a atual, somar seus comprimentos.</p>
 </li>
 <li>
-<p>Número final(numinici): Relacionar todas as seções incluindo a atual, somar seus comprimentos.</p>
+<p>Número final(numfinal): Relacionar todas as seções incluindo a atual, somar seus comprimentos.</p>
 </li>
 </ol>
 
