@@ -39,7 +39,7 @@ erDiagram
    }
 ```
 
-## viageom: classe de feições
+## viageom: classe de feições (polilinha)
 
 Nome     | Campo             | Descrição
 ---------|-------------------|----------------------------------------------------------------------------
