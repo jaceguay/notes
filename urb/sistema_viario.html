@@ -45,6 +45,7 @@
    viageom }|--|| viasecao : codsecao
    viageom {
        int cod
+       int ramo
        int secao
        int loteacod
        string loteanom
@@ -55,6 +56,7 @@
    }
    viasecao {
        int cod
+       int ramo
        int secao
        numeric elevapi
        numeric elevapf
@@ -92,9 +94,14 @@
 <td>Identificador</td>
 </tr>
 <tr>
+<td>ramo</td>
+<td>*Ramo</td>
+<td>1 principal para geocodificação, demais detalhamento da malha</td>
+</tr>
+<tr>
 <td>secao</td>
 <td>*Seção</td>
-<td>Composição para identificador único</td>
+<td>Ordem do trecho atual, crescente no sentido da via</td>
 </tr>
 <tr>
 <td>loteacod</td>
@@ -141,12 +148,17 @@
 <tr>
 <td>cod</td>
 <td>*Código</td>
-<td>Identificador</td>
+<td>&quot;</td>
+</tr>
+<tr>
+<td>ramo</td>
+<td>*Ramo</td>
+<td>&quot;</td>
 </tr>
 <tr>
 <td>secao</td>
 <td>*Seção</td>
-<td>Composição para identificador único</td>
+<td>&quot;</td>
 </tr>
 <tr>
 <td>elevapi</td>
@@ -193,7 +205,7 @@
 <tr>
 <td>cod</td>
 <td>*Código</td>
-<td>Identificador</td>
+<td>&quot;</td>
 </tr>
 <tr>
 <td>logradou</td>
@@ -240,10 +252,10 @@
 <h2 id="descrição-regras">descrição regras</h2>
 <ol>
 <li>
-<p>Número inicial(numinici): Relacionar todas as seções menores que a atual, somar seus comprimentos.</p>
+<p>Número inicial(numinici): Relacionar todas as seções do ramo principal menores que a atual, somar seus comprimentos.</p>
 </li>
 <li>
-<p>Número final(numfinal): Relacionar todas as seções incluindo a atual, somar seus comprimentos.</p>
+<p>Número final(numfinal): Relacionar todas as seções do ramo principal incluindo a atual, somar seus comprimentos.</p>
 </li>
 </ol>
 
