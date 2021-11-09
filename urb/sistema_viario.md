@@ -1,7 +1,7 @@
 ---
-título: Sistema viário
-autor: Jaceguay Zukoski
-data: nov 2021
+título: Sistema viário\
+autor: Jaceguay Zukoski\
+data: nov 2021\
 comentário: Digitalização dos eixos das vias, dados sobre a origem da via, dimensões/materiais e atribuições políticas.
 ---
 

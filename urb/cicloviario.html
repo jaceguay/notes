@@ -41,42 +41,22 @@
     </head>
     <body class="vscode-body vscode-light">
         <hr>
-<h2 id="título-sistema-viárioautor-jaceguay-zukoskidata-nov-2021comentário-digitalização-dos-eixos-das-vias-dados-sobre-a-origem-da-via-dimensõesmateriais-e-atribuições-políticas">título: Sistema viário<br>
+<h2 id="título-sistema-ciclo-viárioautor-jaceguay-zukoskidata-nov-2021comentário-digitalização-dos-eixos">título: Sistema ciclo viário<br>
 autor: Jaceguay Zukoski<br>
 data: nov 2021<br>
-comentário: Digitalização dos eixos das vias, dados sobre a origem da via, dimensões/materiais e atribuições políticas.</h2>
+comentário: Digitalização dos eixos.</h2>
 <h1 id="malha-viária">Malha viária</h1>
 <pre style="all:unset;"><div class="mermaid">erDiagram
-   viageom }|--|| viadenom : cod
-   viageom {
+   ciclogeom }|--|| viadenom : cod
+   ciclogeom {
        int cod
-       int ramo
-       int secao
-       int loteacod
-       string loteanom
        numeric largura
-       numeric passeioe
-       numeric passeiod
-       category paviment
-       int numinici
-       int numfinal
-       numeric elevapi
-       numeric elevapf
-       category sentido
-       numeric comprim
-       category hierarq
-       numeric velocid
-   }
-   viadenom {
-       int cod
-       int logradou
        category tipo
-       category tipoabre
-       category prefixo
-       category prefabre
-       string lograbre
-       string leidata
-       int codtmic
+       category descr
+       category paviment
+       category implant
+       date impldata
+       numeric comprim
    }
 </div></pre>
 <h2 id="viageom-classe-de-feições-propriedades-por-seção-polilinha">viageom: classe de feições, propriedades por seção (polilinha)</h2>
@@ -91,156 +71,49 @@ comentário: Digitalização dos eixos das vias, dados sobre a origem da via, di
 <tbody>
 <tr>
 <td>cod</td>
-<td>*Código</td>
-<td>Identificador</td>
-</tr>
-<tr>
-<td>ramo</td>
-<td>*Ramo</td>
-<td>1 principal para geocodificação</td>
-</tr>
-<tr>
-<td>secao</td>
-<td>*Seção</td>
-<td>Ordem do trecho atual, crescente no sentido da via</td>
-</tr>
-<tr>
-<td>loteacod</td>
-<td>Código loteamento</td>
-<td>Código do loteamento de origem</td>
-</tr>
-<tr>
-<td>loteanom</td>
-<td>Nome loteamento</td>
-<td>Nome de identificação no loteamento de origem</td>
+<td>Código(1)</td>
+<td>Identificador em comum com malha viária</td>
 </tr>
 <tr>
 <td>largura</td>
-<td>Largura</td>
-<td>Largura(metros) muro a muro da seção</td>
-</tr>
-<tr>
-<td>passeioe</td>
-<td>Passeio esquerdo</td>
-<td>Largura(metros) passeio, lado esquerdo</td>
-</tr>
-<tr>
-<td>passeiod</td>
-<td>Passeio direito</td>
-<td>Largura(metros) passeio, lado direito</td>
-</tr>
-<tr>
-<td>paviment</td>
-<td>Pavimentação</td>
-<td>Tipo de pavimentação na faixa de rolamento</td>
-</tr>
-<tr>
-<td>numinici</td>
-<td>Número inicial</td>
-<td>Valor acumulado do comprimento da via até o poto inicial da seção atual (1)</td>
-</tr>
-<tr>
-<td>numfinal</td>
-<td>Número final</td>
-<td>Número infical + comprimento (2)</td>
-</tr>
-<tr>
-<td>elevapi</td>
-<td>Elevação ponto inicial</td>
-<td>Representação da conectividade tridimensional</td>
-</tr>
-<tr>
-<td>elevapf</td>
-<td>Elevação ponto final</td>
-<td>Representação da conectividade tridimensional</td>
-</tr>
-<tr>
-<td>sentido</td>
-<td>Sentido tráfego</td>
-<td>Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)</td>
-</tr>
-<tr>
-<td>comprim</td>
-<td>Comprimento</td>
-<td>Propriedade geométrica</td>
-</tr>
-<tr>
-<td>hierarq</td>
-<td>Hierarquia</td>
-<td>Classe (Expressa, Arterial, Coletora ou local)</td>
-</tr>
-<tr>
-<td>velocid</td>
-<td>Velocidade</td>
-<td>Limite de velocidade na via</td>
-</tr>
-</tbody>
-</table>
-<h2 id="viadenom-tabela-denominação">viadenom: tabela denominação</h2>
-<table>
-<thead>
-<tr>
-<th>Nome</th>
-<th>Campo</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>cod</td>
-<td>*Código</td>
-<td>&quot;</td>
-</tr>
-<tr>
-<td>logradou</td>
-<td>Logradouro</td>
-<td>Denominação</td>
+<td>Largura(metros)</td>
+<td>Restituição ou projetado</td>
 </tr>
 <tr>
 <td>tipo</td>
-<td>Tipo</td>
-<td>Categoria (rua, servidão, travessa, avenida ...)</td>
+<td>ciclovia, ciclofaixa ou compartilhada</td>
+<td>Ciclovia segragada por obstáculo, ciclofaixa junto ao fluxo de veículos e compartilhada junto ao fluxo de pedestres</td>
 </tr>
 <tr>
-<td>tipoabre</td>
-<td>Tipo abreviado</td>
-<td>R., Av., Rod. ...</td>
+<td>descr</td>
+<td>travessia, quadra</td>
+<td>Particularidades</td>
 </tr>
 <tr>
-<td>prefixo</td>
-<td>Prefixo</td>
-<td>Acessório denominação (Vereador, Professor, Doutor)</td>
+<td>paviment</td>
+<td>concreto, asfalto, sem pavimentação, lajota, paralelepípedo, paver, macadami</td>
+<td>Pavimentação da ciclovia</td>
 </tr>
 <tr>
-<td>prefabre</td>
-<td>Prefixo abreviado</td>
-<td>Dep., Ver., Dr. ...</td>
+<td>implant</td>
+<td>implantada, primeira fase, segunda fase</td>
+<td>Via implantada ou projetada segundo o plano de mobilidade</td>
 </tr>
 <tr>
-<td>lograbre</td>
-<td>Nome abreviado</td>
-<td>R.João T.Pinto, R.Bruno V.da Luz ...</td>
+<td>impldata</td>
+<td>data</td>
+<td>Data de implantação da ciclovia</td>
 </tr>
 <tr>
-<td>leidata</td>
-<td>Lei</td>
-<td>Lei/data que dá denominação a via</td>
-</tr>
-<tr>
-<td>codtmic</td>
-<td>Código TMI</td>
-<td>Relação com tabela tributária</td>
+<td>comprim</td>
+<td>comprimento(metros) do trecho</td>
+<td>propriedade da geometria</td>
 </tr>
 </tbody>
 </table>
 <h2 id="descrição-regras">descrição regras</h2>
 <ol>
-<li>
-<p>Número inicial(numinici): Relacionar todas as seções do ramo principal menores que a atual, somar seus comprimentos.</p>
-</li>
-<li>
-<p>Número final(numfinal): Relacionar todas as seções do ramo principal incluindo a atual, somar seus comprimentos.</p>
-</li>
+<li>ligação com a tabela denominação do sistema viário.</li>
 </ol>
 
     </body>
