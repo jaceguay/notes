@@ -1,10 +1,15 @@
-data: dx
+---
+título: Sistema viário
+autor: Jaceguay Zukoski
+data: nov 2021
+comentário: Digitalização dos eixos das vias, dados sobre a origem da via, dimensões/materiais e atribuições políticas.
+---
 
 # Malha viária
 
 ```mermaid
 erDiagram
-   viageom }|--|| viasecao : codsecao
+   viageom }|--|| viadenom : cod
    viageom {
        int cod
        int ramo
@@ -12,14 +17,11 @@ erDiagram
        int loteacod
        string loteanom
        numeric largura
+       numeric passeioe
+       numeric passeiod
        category paviment
        int numinici
        int numfinal
-   }
-   viasecao {
-       int cod
-       int ramo
-       int secao
        numeric elevapi
        numeric elevapf
        category sentido
@@ -27,7 +29,6 @@ erDiagram
        category hierarq
        numeric velocid
    }
-   viageom }|--|| viadenom : cod
    viadenom {
        int cod
        int logradou
@@ -41,33 +42,27 @@ erDiagram
    }
 ```
 
-## viageom: classe de feições (polilinha)
+## viageom: classe de feições, propriedades por seção (polilinha)
 
-Nome     | Campo             | Descrição
----------|-------------------|----------------------------------------------------------------------------
-cod      | *Código           | Identificador
-ramo     | *Ramo             | 1 principal para geocodificação, demais detalhamento da malha
-secao    | *Seção            | Ordem do trecho atual, crescente no sentido da via
-loteacod | Código loteamento | Código do loteamento de origem
-loteanom | Nome loteamento   | Nome de identificação no loteamento de origem
-largura  | Largura           | Largura muro a muro da seção
-paviment | Pavimentação      | Tipo de pavimentação na faixa de rolamento
-numinici | Número inicial    | Valor acumulado do comprimento da via até o poto inicial da seção atual (1)
-numfinal | Número final      | Número infical + comprimento (2)
-
-## viasecao: tabela propriedades seção
-
-Nome    | Campo                  | Descrição
---------|------------------------|----------------------------------------------------------------------
-cod     | *Código                | "
-ramo    | *Ramo                  | "
-secao   | *Seção                 | "
-elevapi | Elevação ponto inicial | Representação da conectividade tridimensional
-elevapf | Elevação ponto final   | Representação da conectividade tridimensional
-sentido | Sentido tráfego        | Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)
-comprim | Comprimento            | Propriedade geométrica
-hierarq | Hierarquia             | Classe (Expressa, Arterial, Coletora ou local)
-velocid | Velocidade             | Limite de velocidade na via
+Nome     | Campo                  | Descrição
+---------|------------------------|----------------------------------------------------------------------------
+cod      | *Código                | Identificador
+ramo     | *Ramo                  | 1 principal para geocodificação
+secao    | *Seção                 | Ordem do trecho atual, crescente no sentido da via
+loteacod | Código loteamento      | Código do loteamento de origem
+loteanom | Nome loteamento        | Nome de identificação no loteamento de origem
+largura  | Largura                | Largura(metros) muro a muro da seção
+passeioe | Passeio esquerdo       | Largura(metros) passeio, lado esquerdo
+passeiod | Passeio direito        | Largura(metros) passeio, lado direito
+paviment | Pavimentação           | Tipo de pavimentação na faixa de rolamento
+numinici | Número inicial         | Valor acumulado do comprimento da via até o poto inicial da seção atual (1)
+numfinal | Número final           | Número infical + comprimento (2)
+elevapi  | Elevação ponto inicial | Representação da conectividade tridimensional
+elevapf  | Elevação ponto final   | Representação da conectividade tridimensional
+sentido  | Sentido tráfego        | Null(duplo), FT(coindide c/digitalização) e TF(inverso digitalização)
+comprim  | Comprimento            | Propriedade geométrica
+hierarq  | Hierarquia             | Classe (Expressa, Arterial, Coletora ou local)
+velocid  | Velocidade             | Limite de velocidade na via
 
 ## viadenom: tabela denominação
 
