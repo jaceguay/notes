@@ -5,7 +5,7 @@ data: nov 2021\
 comentário: Digitalização dos eixos.
 ---
 
-# Malha viária
+# Malha cicloviária
 
 ```mermaid
 erDiagram

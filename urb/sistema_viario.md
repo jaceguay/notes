@@ -83,3 +83,40 @@ codtmic  | Código TMI        | Relação com tabela tributária
 1. Número inicial(numinici): Relacionar todas as seções do ramo principal menores que a atual, somar seus comprimentos.
 
 2. Número final(numfinal): Relacionar todas as seções do ramo principal incluindo a atual, somar seus comprimentos.
+
+## views
+
+### Sistema viário básico:
+
+campos: cod, largura, nome
+
+```sql
+SELECT
+    viageom.objectid,
+    viageom.shape,
+    viageom.cod,
+    viageom.largura,
+    concat(
+        (
+        CASE
+            WHEN viasdenom.tipo = 'Alameda' THEN 'Al.'
+            WHEN viasdenom.tipo = 'Avenida' THEN 'Av.'
+            WHEN viasdenom.tipo = 'Beco' THEN 'Bc.'
+            WHEN viasdenom.tipo = 'Estrada' THEN 'Est.'
+            WHEN viasdenom.tipo = 'Praça' THEN 'Pç.'
+            WHEN viasdenom.tipo = 'Rodovia' THEN 'Rod.'
+            WHEN viasdenom.tipo = 'Rua' THEN 'R.'
+            WHEN viasdenom.tipo = 'Servidão' THEN 'Serv.'
+            WHEN viasdenom.tipo = 'Travessa' THEN 'Trav.'
+            ELSE 'r.'
+        END
+        ),
+        (
+        CASE WHEN viasdenom.abrevpref IS NOT NULL THEN viasdenom.abrevpref ELSE ' ' END
+        ),
+        viasdenom.logradouro
+    ) AS nome
+FROM
+    viageom
+    LEFT JOIN viasdenom ON viageom.cod = viasdenom.cod
+```
