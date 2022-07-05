@@ -1,1 +1,0 @@
-pedaços de código, exemplos.
