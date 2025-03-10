@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <title>Mapa e Gráfico</title>
@@ -14,39 +13,32 @@
       padding: 0;
       height: 100%;
     }
-
     .container {
       display: flex;
       flex-direction: row;
       height: 100vh;
     }
-
     #map {
       flex: 1;
     }
-
     #chart-container {
       flex: 1;
       padding: 10px;
     }
-
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
       }
-
       #map,
       #chart-container {
         height: 50vh;
       }
     }
-
     .total-label {
       background: #fff;
       padding: 5px;
       border: 1px solid #000;
     }
-
     .tooltip-label {
       background: rgba(255, 255, 255, 0.8);
       border: 1px solid #333;
@@ -55,18 +47,14 @@
       font-size: 12px;
       text-align: center;
     }
-
-    /* Tabela com texto reduzido à metade */
     #table-container {
       margin-top: 20px;
     }
-
     #data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 50%;
+      font-size: 75%;
     }
-
     #data-table th,
     #data-table td {
       border: 1px solid #ddd;
@@ -75,7 +63,6 @@
     }
   </style>
 </head>
-
 <body>
   <div class="container">
     <div id="map"></div>
@@ -88,6 +75,8 @@
               <th>Nome</th>
               <th>Hab % (Censo)</th>
               <th>Hab % Pesquisa</th>
+              <th>Registros</th>
+              <th>Amostra Proporc</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -176,13 +165,12 @@
       });
 
       new L.TileLayer(
-        'https://geoitajai.github.io/geo/tiles/basemap_itj/{z}/{y}/{x}', {
+        'https://geoitajai.github.io/geo/tiles/basemap_itj//{z}/{x}/{y}.jpg', {
         minZoom: 10,
         maxZoom: 13,
         opacity: 0.6,
         attribution: 'Basemap Itajaí - SEDUH'
-      }
-      ).addTo(map);
+      }).addTo(map);
 
       mapabairros = L.geoJSON(geojsonData, {
         onEachFeature: (feature, layer) => {
@@ -200,6 +188,7 @@
         },
         style: feature => ({ color: "#3388ff", weight: 2 })
       }).addTo(map);
+
       var info = L.control();
       info.onAdd = function () {
         this._div = L.DomUtil.create('div', 'total-label');
@@ -243,11 +232,14 @@
         tdHabCenso.textContent = feature.properties.hab_pc;
         var tdHabPesquisa = document.createElement('td');
         tdHabPesquisa.textContent = feature.properties.hab_pc_pesquisa;
-        tr.append(tdNome, tdHabCenso, tdHabPesquisa);
+        var tdRegistros = document.createElement('td');
+        tdRegistros.textContent = feature.properties.total_registros;
+        var tdAmostra = document.createElement('td');
+        tdAmostra.textContent = feature.properties.amostra_proporc;
+        tr.append(tdNome, tdHabCenso, tdHabPesquisa, tdRegistros, tdAmostra);
         tbody.appendChild(tr);
       });
     }
   </script>
 </body>
-
 </html>
