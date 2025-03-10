@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa e Gráfico</title>
+  <link rel="stylesheet" href="https://geoitajai.github.io/geo/lib/leaflet/leaflet.css" />
+  <script src="https://geoitajai.github.io/geo/lib/leaflet/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+    }
+
+    #map {
+      flex: 1;
+    }
+
+    #chart-container {
+      flex: 1;
+      padding: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      #map,
+      #chart-container {
+        height: 50vh;
+      }
+    }
+
+    .total-label {
+      background: #fff;
+      padding: 5px;
+      border: 1px solid #000;
+    }
+
+    .tooltip-label {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #333;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* Tabela com texto reduzido à metade */
+    #table-container {
+      margin-top: 20px;
+    }
+
+    #data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 50%;
+    }
+
+    #data-table th,
+    #data-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="map"></div>
+    <div id="chart-container">
+      <canvas id="chart"></canvas>
+      <div id="table-container">
+        <table id="data-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Hab % (Censo)</th>
+              <th>Hab % Pesquisa</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    var col_mapping = {
+      "Carimbo de data/hora": "datahora",
+      "1. Qual seu gênero?": "genero",
+      "2. Qual sua idade?": "idade",
+      "3. Em qual bairro você mora?": "bairro_mora",
+      "4. Há quanto tempo você mora em Itajaí?": "tempo_itajai",
+      "5. Qual sua ocupação?": "ocupacao",
+      "6. Em qual bairro você trabalha?": "bairro_trabalha",
+      "7. Em qual bairro você estuda?": "bairro_estuda",
+      "8. Qual sua média salarial atualmente?": "media_salarial",
+      "9. Possui deficiência? Qual?": "deficiencia",
+      "10. Qual o principal meio de transporte que você utiliza para se deslocar até o trabalho?": "transp_trabalho",
+      "11. Qual o principal meio de transporte que você utiliza para se deslocar até a escola/ curso/ faculdade?": "transp_escola",
+      "12. Qual o principal meio de transporte que você utiliza para se deslocar até ambientes de lazer?": "transp_lazer",
+      "13. Possui veículo próprio?": "veiculo_proprio",
+      "14. Você utiliza transporte público (ônibus)?": "transp_publico",
+      "15. Se você respondeu que não usa ônibus... Por que você não usa? ": "motivo_nao_onibus",
+      "16. Que horas você COMEÇA no trabalho?": "hora_inicio_trabalho",
+      "17. Que horas você SAI do trabalho?": "hora_saida_trabalho",
+      "18. Que horas você COMEÇA na escola/ curso/ faculdade?": "hora_inicio_escola",
+      "19. Que horas você SAI da escola/ curso/ faculdade?": "hora_saida_escola",
+      "20. Você quer deixar alguma observação?": "observacao"
+    };
+
+    var tsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSSePFQDk67D73JeimxvF-1yFu9tfS8Y3PanNZESSKsIMKd1LWwE7Hkapcf818SEF7SttNYFJr0ClHy/pub?gid=34171625&single=true&output=tsv";
+
+    function parseTSV(tsv) {
+      var lines = tsv.trim().split("\n");
+      var headers = lines[0].split("\t").map(header => col_mapping[header] || header);
+      var data = [];
+      for (var i = 1; i < lines.length; i++) {
+        var currentline = lines[i].split("\t");
+        var obj = {};
+        headers.forEach((header, index) => { obj[header] = currentline[index]; });
+        data.push(obj);
+      }
+      return data;
+    }
+
+    function aggregateData(data) {
+      var agg = {};
+      data.forEach(record => {
+        var bairro = record.bairro_mora;
+        if (bairro) agg[bairro] = (agg[bairro] || 0) + 1;
+      });
+      return agg;
+    }
+
+    Promise.all([
+      fetch('bairros.geojson').then(response => response.json()),
+      fetch(tsvUrl).then(response => response.text())
+    ]).then(([geojsonData, tsv]) => {
+      var surveyData = parseTSV(tsv);
+      var aggregation = aggregateData(surveyData);
+      var totalRecords = surveyData.length;
+      geojsonData.features.forEach(feature => {
+        var nome = feature.properties.nome;
+        var count = aggregation[nome] || 0;
+        feature.properties.total_registros = count;
+        feature.properties.hab_pc_pesquisa = totalRecords ? ((count / totalRecords) * 100).toFixed(2) : 0;
+      });
+      initMap(totalRecords, geojsonData);
+      initChart(geojsonData);
+      initTable(geojsonData);
+    });
+
+    var map, mapabairros;
+    function initMap(totalRecords, geojsonData) {
+      map = new L.Map('map', {
+        zoom: 13,
+        minZoom: 10,
+        maxZoom: 13,
+        maxBounds: [[-27.3000, -49.2300], [-26.3285, -48.3200]],
+        center: new L.latLng([-26.9046, -48.6874]),
+        zoomControl: false,
+        preferCanvas: true,
+        tap: false
+      });
+
+      new L.TileLayer(
+        'https://geoitajai.github.io/geo/tiles/basemap_itj/{z}/{y}/{x}', {
+        minZoom: 10,
+        maxZoom: 13,
+        opacity: 0.6,
+        attribution: 'Basemap Itajaí - SEDUH'
+      }
+      ).addTo(map);
+
+      mapabairros = L.geoJSON(geojsonData, {
+        onEachFeature: (feature, layer) => {
+          var popupContent = "<strong>" + feature.properties.nome + "</strong><br>" +
+            "Total hab: " + feature.properties.total_hab + "<br>" +
+            "Hab %: " + feature.properties.hab_pc + "<br>" +
+            "Registros: " + feature.properties.total_registros + "<br>" +
+            "Hab % Pesquisa: " + feature.properties.hab_pc_pesquisa;
+          layer.bindPopup(popupContent);
+          layer.bindTooltip(feature.properties.total_registros.toString(), {
+            permanent: true,
+            direction: 'center',
+            className: 'tooltip-label'
+          });
+        },
+        style: feature => ({ color: "#3388ff", weight: 2 })
+      }).addTo(map);
+      var info = L.control();
+      info.onAdd = function () {
+        this._div = L.DomUtil.create('div', 'total-label');
+        this.update();
+        return this._div;
+      };
+      info.update = function () {
+        this._div.innerHTML = "<h4>Total de Registros: " + totalRecords + "</h4>";
+      };
+      info.addTo(map);
+    }
+
+    function initChart(geojsonData) {
+      var labels = [], habPC = [], habPCPesquisa = [];
+      geojsonData.features.forEach(feature => {
+        labels.push(feature.properties.nome);
+        habPC.push(parseFloat(feature.properties.hab_pc));
+        habPCPesquisa.push(parseFloat(feature.properties.hab_pc_pesquisa));
+      });
+      var ctx = document.getElementById('chart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Hab % (Censo)', data: habPC, backgroundColor: 'rgba(54, 162, 235, 0.5)' },
+            { label: 'Hab % Pesquisa', data: habPCPesquisa, backgroundColor: 'rgba(255, 99, 132, 0.5)' }
+          ]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
+
+    function initTable(geojsonData) {
+      var tbody = document.querySelector('#data-table tbody');
+      geojsonData.features.forEach(feature => {
+        var tr = document.createElement('tr');
+        var tdNome = document.createElement('td');
+        tdNome.textContent = feature.properties.nome;
+        var tdHabCenso = document.createElement('td');
+        tdHabCenso.textContent = feature.properties.hab_pc;
+        var tdHabPesquisa = document.createElement('td');
+        tdHabPesquisa.textContent = feature.properties.hab_pc_pesquisa;
+        tr.append(tdNome, tdHabCenso, tdHabPesquisa);
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+
+</html>
