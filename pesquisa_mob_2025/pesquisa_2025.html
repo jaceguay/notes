@@ -7,60 +7,22 @@
   <script src="https://geoitajai.github.io/geo/lib/leaflet/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-    .container {
-      display: flex;
-      flex-direction: row;
-      height: 100vh;
-    }
-    #map {
-      flex: 1;
-    }
-    #chart-container {
-      flex: 1;
-      padding: 10px;
-    }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    .container { display: flex; flex-direction: row; height: 100vh; }
+    #map { flex: 1; }
+    #chart-container { flex: 1; padding: 10px; }
     @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      #map,
-      #chart-container {
-        height: 50vh;
-      }
+      .container { flex-direction: column; }
+      #map, #chart-container { height: 50vh; }
     }
-    .total-label {
-      background: #fff;
-      padding: 5px;
-      border: 1px solid #000;
-    }
+    .total-label { background: #fff; padding: 5px; border: 1px solid #000; }
     .tooltip-label {
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid #333;
-      padding: 2px 4px;
-      border-radius: 3px;
-      font-size: 12px;
-      text-align: center;
+      background: rgba(255,255,255,0.8); border: 1px solid #333;
+      padding: 2px 4px; border-radius: 3px; font-size: 12px; text-align: center;
     }
-    #table-container {
-      margin-top: 20px;
-    }
-    #data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 75%;
-    }
-    #data-table th,
-    #data-table td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
+    #table-container { margin-top: 20px; }
+    #data-table { width: 100%; border-collapse: collapse; font-size: 75%; }
+    #data-table th, #data-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
   </style>
 </head>
 <body>
@@ -133,25 +95,57 @@
       return agg;
     }
 
+    function aggregateDestinoData(data) {
+      var agg = {};
+      data.forEach(record => {
+        if(record.bairro_trabalha){
+          agg[record.bairro_trabalha] = (agg[record.bairro_trabalha] || 0) + 1;
+        }
+        if(record.bairro_estuda){
+          agg[record.bairro_estuda] = (agg[record.bairro_estuda] || 0) + 1;
+        }
+      });
+      return agg;
+    }
+
     Promise.all([
-      fetch('bairros.geojson').then(response => response.json()),
-      fetch(tsvUrl).then(response => response.text())
-    ]).then(([geojsonData, tsv]) => {
+      fetch('bairros.geojson').then(response => {
+        if (!response.ok) return Promise.reject("Falha ao carregar bairros.geojson");
+        return response.json();
+      }),
+      fetch(tsvUrl).then(response => {
+        if (!response.ok) return Promise.reject("Falha ao carregar o TSV");
+        return response.text();
+      })
+    ])
+    .then(([geojsonData, tsv]) => {
       var surveyData = parseTSV(tsv);
       var aggregation = aggregateData(surveyData);
+      var aggregationDestino = aggregateDestinoData(surveyData);
       var totalRecords = surveyData.length;
+
+      // Camada Moradia (bairro_mora)
       geojsonData.features.forEach(feature => {
         var nome = feature.properties.nome;
         var count = aggregation[nome] || 0;
         feature.properties.total_registros = count;
         feature.properties.hab_pc_pesquisa = totalRecords ? ((count / totalRecords) * 100).toFixed(2) : 0;
       });
+
+      // Camada Destino (bairro_trabalha + bairro_estuda)
+      geojsonData.features.forEach(feature => {
+        var nome = feature.properties.nome;
+        var countDest = aggregationDestino[nome] || 0;
+        feature.properties.total_destino = countDest;
+      });
+
       initMap(totalRecords, geojsonData);
       initChart(geojsonData);
       initTable(geojsonData);
-    });
+    })
+    .catch(error => console.error("Erro ao carregar os dados:", error));
 
-    var map, mapabairros;
+    var map, mapabairros, layerDestino;
     function initMap(totalRecords, geojsonData) {
       map = new L.Map('map', {
         zoom: 13,
@@ -172,6 +166,7 @@
         attribution: 'Basemap Itajaí - SEDUH'
       }).addTo(map);
 
+      // Camada Moradia (origem: bairro_mora)
       mapabairros = L.geoJSON(geojsonData, {
         onEachFeature: (feature, layer) => {
           var popupContent = "<strong>" + feature.properties.nome + "</strong><br>" +
@@ -188,6 +183,27 @@
         },
         style: feature => ({ color: "#3388ff", weight: 2 })
       }).addTo(map);
+
+      // Camada Destino (soma de bairro_trabalha e bairro_estuda)
+      layerDestino = L.geoJSON(geojsonData, {
+        onEachFeature: (feature, layer) => {
+          var popupContent = "<strong>" + feature.properties.nome + "</strong><br>" +
+            "Total hab: " + feature.properties.total_hab + "<br>" +
+            "Registros (trabalho/estudo): " + feature.properties.total_destino;
+          layer.bindPopup(popupContent);
+          layer.bindTooltip(feature.properties.total_destino.toString(), {
+            permanent: true,
+            direction: 'center',
+            className: 'tooltip-label'
+          });
+        },
+        style: feature => ({ color: "#ff7800", weight: 2 })
+      });
+
+      L.control.layers({
+        "Moradia": mapabairros,
+        "Destino (trabalho/estudo)": layerDestino
+      }, null, { collapsed: false }).addTo(map);
 
       var info = L.control();
       info.onAdd = function () {
